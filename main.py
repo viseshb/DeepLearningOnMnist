@@ -4,6 +4,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
+import random
 
 # Set device to CPU
 device = torch.device("cpu")
@@ -83,8 +84,10 @@ with torch.no_grad():
         correct += (predicted == labels).sum().item()
 print(f"Accuracy on test data: {100 * correct / total:.2f}%")
 
-# 7. Visualize one prediction from training data
-image, label = train_data[0]
+# 7. Visualize a **random** prediction from training data
+index = random.randint(0, len(train_data) - 1)
+image, label = train_data[index]
+
 plt.imshow(image.squeeze(), cmap='gray')
 plt.title(f"True Label: {label}")
 plt.show()
@@ -93,6 +96,7 @@ with torch.no_grad():
     pred = model(image.unsqueeze(0))
     print("Predicted Label:", torch.argmax(pred).item())
 
+# Save the image
 plt.imshow(image.squeeze(), cmap='gray')
 plt.title(f"True Label: {label}")
 plt.axis('off')  # hides the x and y axis
