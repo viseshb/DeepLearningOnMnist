@@ -39,7 +39,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 4. Train the model
-epochs = 20
+epochs = 10
 for epoch in range(epochs):
     total_loss = 0
     model.train()
@@ -92,3 +92,9 @@ plt.show()
 with torch.no_grad():
     pred = model(image.unsqueeze(0))
     print("Predicted Label:", torch.argmax(pred).item())
+
+plt.imshow(image.squeeze(), cmap='gray')
+plt.title(f"True Label: {label}")
+plt.axis('off')  # hides the x and y axis
+plt.savefig("sample_photo.png", bbox_inches='tight')
+plt.show()
