@@ -25,7 +25,6 @@ graph1 = {
     'F': ['D', 'E', 'G'],
     'G': ['E', 'F']
 }
-
 graph2 = {
     1: [2, 3],
     2: [3, 4, 5],
@@ -34,7 +33,6 @@ graph2 = {
     5: [4,6],
     6: []
 }
-
 graph3 = {
     'A': ['B', 'F', 'I'],
     'B': ['A','E', 'C'],
@@ -46,7 +44,6 @@ graph3 = {
     'H': ['D'],
     'I': ['A']
 }
-
 graph4 = {
     'A': ['C', 'D'],
     'B': ['C'],
@@ -56,6 +53,17 @@ graph4 = {
     'F': ['B'],
     'G': [],
     'H': ['E']
+    
+}
+graph5 = {
+    0 : [1, 3, 4],
+    1 : [0, 5, 6],
+    2 : [4, 5],
+    3 : [0, 7],
+    4 : [0, 2, 6, 7],
+    5 : [1, 2, 6, 7],
+    6 : [1, 4, 5, 7],
+    7 : [3, 4, 5, 6]
     
 }
 # Run DFS
@@ -70,4 +78,7 @@ print("BFS Order Q3:", bfs_order)
 print("-----------------------")
 bfs_order = bfs_directed(graph4, 'A')
 print("BFS Order Q4:", bfs_order)
+print("-----------------------")
+bfs_order = bfs_directed(graph5, 0)
+print("BFS Order Q5:", bfs_order)
 
