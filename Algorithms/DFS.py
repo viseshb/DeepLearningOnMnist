@@ -8,13 +8,12 @@ def dfs_stack(graph, start):
         if node not in visited:
             visited.add(node)
             order.append(node)
-            # Push neighbors in reverse alphabetical order
-            for neighbor in sorted(graph[node], reverse=True):
+            # Push neighbors onto the stack in their original order
+            neighbors = graph[node]
+            for neighbor in reversed(neighbors): # Push in reverse to maintain DFS order
                 if neighbor not in visited:
                     stack.append(neighbor)
-    
     return order
-
 graph1 = {
     'A': ['B', 'D'],
     'B': ['A', 'C', 'D', 'E'],
@@ -79,3 +78,4 @@ print("DFS Order Q4:", dfs_order)
 print("-----------------------")
 dfs_order = dfs_stack(graph5, 0)
 print("DFS Order Q5:", dfs_order)  
+ 
