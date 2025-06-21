@@ -56,9 +56,9 @@ def heap_sort(arr, ascending=True):
         sorted_arr.append(heap.remove())
 
     if ascending:
-        return sorted_arr[::-1]  # ascending → reverse max-first order
+        return sorted_arr  # ascending → reverse max-first order
     else:
-        return sorted_arr        # descending → natural max-first order
+        return sorted_arr[::-1]      # descending → natural max-first order
 
 
 myHeap = MinHeap()
