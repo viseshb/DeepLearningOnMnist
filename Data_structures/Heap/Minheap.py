@@ -46,7 +46,19 @@ class MinHeap:
 
         return min_index            
 
+def heap_sort(arr, ascending=True):
+    heap = MinHeap()
+    for val in arr:
+        heap.insert(val)
 
+    sorted_arr = []
+    while heap.heap:
+        sorted_arr.append(heap.remove())
+
+    if ascending:
+        return sorted_arr[::-1]  # ascending → reverse max-first order
+    else:
+        return sorted_arr        # descending → natural max-first order
 
 
 myHeap = MinHeap()
@@ -64,3 +76,10 @@ print("Element removed:", myHeap.remove())
 print(myHeap.heap)
 
 
+print("\nOriginal array:", myHeap.heap)
+
+asc_sorted = heap_sort(myHeap.heap, ascending=True)
+print("Ascending sort:", asc_sorted)
+
+desc_sorted = heap_sort(myHeap.heap, ascending=False)
+print("Descending sort:", desc_sorted)
