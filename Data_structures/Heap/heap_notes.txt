@@ -1,0 +1,78 @@
+===============================
+📘 HEAP DATA STRUCTURE NOTES
+===============================
+
+🧠 What is a Heap?
+-------------------
+A Heap is a special **complete binary tree** that satisfies the **heap property**:
+- In a **Max-Heap**: Parent ≥ Children
+- In a **Min-Heap**: Parent ≤ Children
+
+Stored commonly as an array for efficiency.
+
+📦 Properties of Heap:
+-----------------------
+1. Complete Binary Tree
+   - All levels filled except possibly the last
+   - Last level is filled left to right
+2. Heap Property
+   - Max-Heap: Parent >= Children
+   - Min-Heap: Parent <= Children
+
+🧩 Types of Heaps:
+-------------------
+- Max-Heap: Root is the maximum value
+- Min-Heap: Root is the minimum value
+
+🛠️ Common Heap Operations:
+----------------------------
+- insert(value): Adds a value and reorders heap
+- peek(): Returns the root value without removing
+- extract_min() or extract_max(): Removes the root and heapifies
+- heapify(): Converts array into a valid heap
+
+📐 Heap as Array (Index Formulas):
+-----------------------------------
+For node at index i:
+- Parent       = (i - 1) // 2
+- Left Child   = 2 * i + 1
+- Right Child  = 2 * i + 2
+
+🧪 Min-Heap Example:
+---------------------
+         2
+       /   \
+      3     4
+     / \
+    5   10
+
+Array: [2, 3, 4, 5, 10]
+
+⏱️ Time & Space Complexity:
+----------------------------
+| Operation      | Time Complexity |
+|----------------|-----------------|
+| Insert         | O(log n)        |
+| Remove Root    | O(log n)        |
+| Peek           | O(1)            |
+| Build Heap     | O(n)            |
+
+📊 Applications of Heap:
+-------------------------
+- Priority Queues
+- Dijkstra's Algorithm (Shortest Path)
+- Heap Sort
+- CPU Scheduling
+- Median maintenance (with 2 heaps)
+
+🚀 Heap Sort Overview (Using Max-Heap):
+----------------------------------------
+1. Build a Max-Heap
+2. Swap root with last element
+3. Shrink heap size by 1
+4. Heapify the root
+5. Repeat until sorted
+
+Time Complexity: O(n log n)
+
+===============================
