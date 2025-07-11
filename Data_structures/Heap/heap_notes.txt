@@ -76,3 +76,38 @@ Array: [2, 3, 4, 5, 10]
 Time Complexity: O(n log n)
 
 ===============================
+# ------------------------------------------
+# 🔼 HEAPIFY-UP (a.k.a. Bubble Up or Sift Up)
+# ------------------------------------------
+# Used after inserting a new element at the end of the heap
+# It ensures the heap property is maintained by moving the new element up
+
+def heapify_up(index):
+    parent_index = (index - 1) // 2
+    if index > 0 and heap[index] > heap[parent_index]:  # For Max Heap
+        heap[index], heap[parent_index] = heap[parent_index], heap[index]
+        heapify_up(parent_index)
+
+# ------------------------------------------
+# 🔽 HEAPIFY-DOWN (a.k.a. Bubble Down or Sift Down)
+# ------------------------------------------
+# Used after removing the root (usually the max or min element)
+# It ensures the heap property is restored by moving the element down
+
+def heapify_down(index):
+    left = 2 * index + 1
+    right = 2 * index + 2
+    largest = index
+
+    # Check if left child exists and is greater than current
+    if left < len(heap) and heap[left] > heap[largest]:
+        largest = left
+
+    # Check if right child exists and is greater than current
+    if right < len(heap) and heap[right] > heap[largest]:
+        largest = right
+
+    # If largest is not the current index, swap and recurse
+    if largest != index:
+        heap[index], heap[largest] = heap[largest], heap[index]
+        heapify_down(largest)
