@@ -21,23 +21,27 @@ x_train_norm, x_mu, x_sigma = z_score_norm(x_train)
 
 # ======== Cost Function ========
 def compute_cost(x, y, w, b):
-    return np.mean((x @ w + b - y) ** 2) / 2
+    total_cost = 0
+    for i in range(m):
+        total_cost += (np.dot(x[i], w)  + b -y[i])**2
+    return total_cost/(2*m)    
 
 # ======== Gradient ========
 def compute_gradient(x, y, w, b):
-    m = x.shape[0]
-    err = x @ w + b - y
-    dj_dw = (1 / m) * (x.T @ err)
-    dj_db = np.mean(err)
-    return dj_dw, dj_db
+    dj_dw = 0
+    dj_db =0
+    for i in range(m):
+        dj_dw += (np.dot(x[i], w) + b - y[i])*x[i]
+        dj_db += np.dot(x[i], w) + b - y[i]
+    return dj_dw/m, dj_db/m    
 
 # ======== Gradient Descent ========
 def gradient_descent(x, y, w, b, alpha, iterations):
     cost_history = []
     for i in range(iterations):
-        dj_dw, dj_db = compute_gradient(x, y, w, b)
-        w -= alpha * dj_dw
-        b -= alpha * dj_db
+        dw, db = compute_gradient(x, y, w, b)
+        w -= alpha * dw
+        b -= alpha * db
         cost = compute_cost(x, y, w, b)
         cost_history.append(cost)
         if i % 10 == 0:
