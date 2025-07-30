@@ -43,7 +43,7 @@ def gradient_descent(x, y, w, b, alpha, number_iterations):
 initial_w = np.zeros(n)
 initial_b = 0
 alpha = 0.00000001
-iterations = 1000
+iterations = 200
 
 final_w, final_b, cost_history = gradient_descent(x_train, y_train, initial_w, initial_b, alpha, iterations)
 
@@ -69,6 +69,11 @@ print("\nFinal learned parameters:")
 for i, w_i in enumerate(final_w):
     print(f"w{i+1} = {w_i:.6f}")
 print(f"bias = {final_b:.6f}")
+
+save_dir = os.path.join(os.path.dirname(__file__), "images")
+
+# Create the directory if it doesn't exist
+os.makedirs(save_dir, exist_ok=True)
 
 plt.figure(figsize=(8,5))
 plt.plot(range(iterations), cost_history, linewidth=2)

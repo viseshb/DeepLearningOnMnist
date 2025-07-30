@@ -49,6 +49,10 @@ def predict(w, x, b):
 predicted_price = predict(final_w, 300, final_b)
 print(f"\nPrice of 300 sqft house: ${predicted_price * 1000:.2f}")
 
+save_dir = os.path.join(os.path.dirname(__file__), "images")
+
+# Create the directory if it doesn't exist
+os.makedirs(save_dir, exist_ok=True)
 
 # Plot the data and regression line
 plt.scatter(x_train, y_train, color='blue', label='Data Points')
