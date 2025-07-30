@@ -15,7 +15,8 @@ def z_score_norm(x):
     mu = np.mean(x, axis=0)
     sigma = np.std(x, axis=0)
     sigma[sigma == 0] = 1
-    return (x - mu) / sigma, mu, sigma
+    x_norm = (x - mu) / sigma
+    return x_norm, mu, sigma
 
 x_train_norm, x_mu, x_sigma = z_score_norm(x_train)
 
