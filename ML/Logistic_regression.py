@@ -51,7 +51,7 @@ alpha = 2
 final_w, final_b, cost_history = gradient_descent(x_train, y_train, initial_w, initial_b, alpha, iterations)
 
 def compute_model_output(x, w, b):
-    g = w * x + b
+    g = np.dot(w, x) + b
     return sigmoid(g)
 
 # Predict for training data
