@@ -5,14 +5,17 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import random
+import os
 
 # Set device to CPU
 device = torch.device("cpu")
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(script_dir, "data")
 # 1. Load and transform MNIST data
 transform = transforms.ToTensor()
-train_data = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-test_data = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+train_data = datasets.MNIST(root=data_dir, train=True, download=True, transform=transform)
+test_data = datasets.MNIST(root=data_dir, train=False, download=True, transform=transform)
 
 train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
 test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
@@ -97,8 +100,10 @@ with torch.no_grad():
     print("Predicted Label:", torch.argmax(pred).item())
 
 # Save the image
+images_dir = os.path.join(script_dir, "images")
+os.makedirs(images_dir, exist_ok=True) 
 plt.imshow(image.squeeze(), cmap='gray')
 plt.title(f"True Label: {label}")
 plt.axis('off')  # hides the x and y axis
-plt.savefig("sample_photo.png", bbox_inches='tight')
+plt.savefig(os.path.join(images_dir,"sample_photo.png"), bbox_inches='tight')
 plt.show()
