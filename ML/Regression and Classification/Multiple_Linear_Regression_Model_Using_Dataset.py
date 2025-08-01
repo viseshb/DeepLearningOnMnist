@@ -92,7 +92,8 @@ for i in range(n):
 print(f"Bias: {final_b:.4f}")
 
 # ======== Visualization Directory ========
-save_dir = os.path.join(os.path.dirname(__file__), "images/Multiple_Linear_Regression_Using_Dataset")
+current_dir = os.path.dirname(__file__)
+save_dir = os.path.abspath(os.path.join(current_dir, "..", "images/Multiple_Linear_Regression_Using_Dataset"))
 os.makedirs(save_dir, exist_ok=True)
 
 # ======== Plot Cost Convergence ========

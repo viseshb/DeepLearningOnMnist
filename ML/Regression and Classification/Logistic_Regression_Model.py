@@ -97,10 +97,11 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 
-# Save plot
-save_dir = os.path.join(os.path.dirname(__file__), "images/Logistic_Regression")
+# ======== Visualization Directory ========
+current_dir = os.path.dirname(__file__)
+save_dir = os.path.abspath(os.path.join(current_dir, "..","images/Logistic_Regression"))
 os.makedirs(save_dir, exist_ok=True)
-plt.savefig(os.path.join(save_dir, "Logistic_Regression.png"))
+
 plt.show()
 
 # Plot cost convergence

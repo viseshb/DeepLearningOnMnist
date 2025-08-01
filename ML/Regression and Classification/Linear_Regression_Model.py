@@ -73,11 +73,11 @@ def predict(w, x, b, mu, sigma):
 predicted_price = predict(final_w, 300, final_b, x_mu, x_sigma)
 print(f"\nPrice of 300 sqft house: ${predicted_price * 1000:.2f}")
 
-# ======== Save and Plot ========
-save_dir = os.path.join(os.path.dirname(__file__), "images/Linear_regression")
+# ======== Visualization Directory ========
+current_dir = os.path.dirname(__file__)
+save_dir = os.path.abspath(os.path.join(current_dir, "..","images/Linear_regression"))
 os.makedirs(save_dir, exist_ok=True)
-# ========== Plot Regression Line ==========
-os.makedirs(save_dir, exist_ok=True)
+
 
 plt.scatter(x_train, y_train, color='blue', label='Data Points')
 x_line = np.linspace(min(x_train), max(x_train), 100)

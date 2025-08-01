@@ -2,9 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# === Create Save Directory ===
-save_dir = os.path.join(os.path.dirname(__file__), "images")
-os.makedirs(save_dir, exist_ok=True)
+
 
 # === Input Data ===
 x_train = np.array([[0.5, 1.5], [1, 1], [1.5, 0.5],
@@ -102,7 +100,8 @@ grid = np.c_[xx1.ravel(), xx2.ravel()]
 probs = compute_model_output(grid, final_w, final_b, x_mu, x_sigma).reshape(xx1.shape)
 
 # ======== Visualization Directory ========
-save_dir = os.path.join(os.path.dirname(__file__), "images/Multiple_Logistic_Regression")
+current_dir = os.path.dirname(__file__)
+save_dir = os.path.abspath(os.path.join(current_dir, "..", "images/Multiple_Logistic_Regression"))
 os.makedirs(save_dir, exist_ok=True)
 
 plt.figure()

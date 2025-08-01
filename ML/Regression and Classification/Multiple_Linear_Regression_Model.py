@@ -2,8 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# ======== Setup ========
-save_dir = os.path.join(os.path.dirname(__file__), "images/Multiple_Linear_regression")
+
+# ======== Visualization Directory ========
+current_dir = os.path.dirname(__file__)
+save_dir = os.path.abspath(os.path.join(current_dir, "..", "images/Multiple_Linear_regression"))
 os.makedirs(save_dir, exist_ok=True)
 
 # ======== Input Data ========
