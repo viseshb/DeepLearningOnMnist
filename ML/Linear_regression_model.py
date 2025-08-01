@@ -3,74 +3,99 @@ import os
 import matplotlib.pyplot as plt 
 save_dir = os.path.dirname(os.path.abspath(__file__))
 
-x_train = np.array([100, 1000]) # in sqfeet
-y_train = np.array([20, 150]) # in kdollars
-m = x_train.shape[0]
+# ========== Data ==========
+x_train = np.array([100, 1000])  # sq ft
+y_train = np.array([20, 150])    # in $1000s
+m = len(x_train)
 
-def compute_cost(x,y, w,b):
+# ========== Z-score Normalization ==========
+def z_score_norm(x):
+    mu = np.mean(x)
+    sigma = np.std(x)
+    if sigma == 0:
+        sigma = 1  # avoid division by zero
+    x_norm = (x - mu) / sigma
+    return x_norm, mu, sigma
+
+x_train_norm, x_mu, x_sigma = z_score_norm(x_train)
+
+# ========== Cost Function with L2 Regularization ==========
+def compute_cost(x, y, w, b, lambda_):
     total_cost = 0
     for i in range(m):
-        total_cost += (w*x[i] + b - y[i])**2
-    return total_cost/(2*m)
+        f_wb_i = w * x[i] + b
+        total_cost += (f_wb_i - y[i]) ** 2
+    mse = total_cost / (2 * m)
+    reg = (lambda_ / (2 * m)) * (w ** 2)  # L2 penalty
+    return mse + reg
 
-def compute_gradient(x, y, w, b):
+# ========== Gradient with L2 Regularization ==========
+def compute_gradient(x, y, w, b, lambda_):
     dj_dw = 0
     dj_db = 0
     for i in range(m):
-        dj_dw += (w*x[i] + b - y[i])*x[i]
-        dj_db += w*x[i] + b - y[i]
-    return dj_dw/m, dj_db/m
+        f_wb_i = w * x[i] + b
+        dj_dw += (f_wb_i - y[i]) * x[i]
+        dj_db += f_wb_i - y[i]
+    dj_dw = dj_dw / m + (lambda_ / m) * w  # L2 gradient term
+    dj_db = dj_db / m
+    return dj_dw, dj_db
 
-def gradient_descent(x, y, w, b, alpha, num_iters):
-    dw =0
-    db =0
+# ========== Gradient Descent ==========
+def gradient_descent(x, y, w, b, alpha, num_iters, lambda_):
     cost_history = []
     for i in range(num_iters):
-        dw, db = compute_gradient(x, y, w, b)
-        w = w - alpha*dw
-        b = b - alpha*db
-        cost_history.append(compute_cost(x,y, w, b))
+        dj_dw, dj_db = compute_gradient(x, y, w, b, lambda_)
+        w -= alpha * dj_dw
+        b -= alpha * dj_db
+        cost = compute_cost(x, y, w, b, lambda_)
+        cost_history.append(cost)
 
-        if i%10 == 0:
-            print(f"Iteration {i}: Cost = {cost_history[-1]:.4f}, w = {w:.2f}, b = {b:.2f}")
+        if i % 100 == 0:
+            print(f"Iteration {i}: Cost = {cost:.4f}, w = {w:.4f}, b = {b:.4f}")
 
     return w, b, cost_history
 
+# ========== Training ==========
 initial_w = 0
 initial_b = 0
-alpha = 0.000001
-iterations = 100
+alpha = 0.01
+iterations = 1000
+lambda_ = 0.1
 
-final_w, final_b, cost_history = gradient_descent(x_train, y_train, initial_w, initial_b, alpha, iterations)
+final_w, final_b, cost_history = gradient_descent(x_train_norm, y_train, initial_w, initial_b, alpha, iterations, lambda_)
 
-def predict(w, x, b):
-    return w*x + b
+# ========== Prediction Function ==========
+def predict(w, x, b, mu, sigma):
+    x_norm = (x - mu) / sigma
+    return w * x_norm + b
 
-predicted_price = predict(final_w, 300, final_b)
+predicted_price = predict(final_w, 300, final_b, x_mu, x_sigma)
 print(f"\nPrice of 300 sqft house: ${predicted_price * 1000:.2f}")
 
-save_dir = os.path.join(os.path.dirname(__file__), "images")
-
-# Create the directory if it doesn't exist
+# ======== Save and Plot ========
+save_dir = os.path.join(os.path.dirname(__file__), "images/Linear_regression")
+os.makedirs(save_dir, exist_ok=True)
+# ========== Plot Regression Line ==========
 os.makedirs(save_dir, exist_ok=True)
 
-# Plot the data and regression line
 plt.scatter(x_train, y_train, color='blue', label='Data Points')
-plt.plot(x_train, predict(final_w,x_train, final_b), color='red', label='Regression Line')
+x_line = np.linspace(min(x_train), max(x_train), 100)
+y_line = predict(final_w, x_line, final_b, x_mu, x_sigma)
+plt.plot(x_line, y_line, color='red', label='Regression Line')
 plt.xlabel("Size (sq ft)")
-plt.ylabel("price ($1000s)")
-plt.title("Linear Regression Model")
+plt.ylabel("Price ($1000s)")
+plt.title("Regularized Linear Regression")
 plt.legend()
 plt.grid(True)
-plt.savefig(os.path.join(save_dir, "regression_line.png"))
+plt.savefig(os.path.join(save_dir, "Linear_regression_line.png"))
 plt.show()
 
-
-# Plot cost vs iteration
+# ========== Plot Cost Function ==========
 plt.plot(range(iterations), cost_history)
 plt.xlabel("Iterations")
 plt.ylabel("Cost")
-plt.title("Cost Function Convergence")
+plt.title("Cost Function Convergence (with L2 Regularization)")
 plt.grid(True)
-plt.savefig(os.path.join(save_dir, "cost_convergence.png"))
+plt.savefig(os.path.join(save_dir, "Linear_Regression_cost_convergence.png"))
 plt.show()
